@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/views/Login'
 import Home from '@/views/Home'
 import welcome from '@/components/welcome'
+import user from '@/components/User'
 Vue.use(Router)
 let router = new Router({
   routes: [
@@ -13,17 +14,22 @@ let router = new Router({
     {
       path: '/',
       component: Home,
+      redirect: '/welcome',
       children: [
         {
           path: 'welcome',
           component: welcome
+        },
+        {
+          path: 'user',
+          component: user
         }
       ]
     }
   ]
 })
 router.beforeEach((to, from, next) => {
-  let token = localStorage.getItem('user')
+  let token = localStorage.getItem('mytoken')
   if(token){
     next()
   } else {

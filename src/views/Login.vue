@@ -6,7 +6,7 @@
                 <el-input v-model="form.username" placeholder="账户" prefix-icon="myicon myicon-user"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-                <el-input v-model="form.password" placeholder="密码" prefix-icon="myicon myicon-key" type="password"></el-input>
+                <el-input v-model="form.password" placeholder="密码" prefix-icon="myicon myicon-key" type="password" @keyup.native.enter="login"></el-input>
             </el-form-item>
             <el-form-item>
                <el-button type="primary" class="login-btn" @click="login">登录</el-button>
@@ -38,8 +38,9 @@ export default {
           checkUser(this.form).then(res => {
             if (res.meta.status == 200) {
               console.log(res);
-              localStorage.setItem("user", res.data.token);
-              this.$router.push("/welcome");
+              localStorage.setItem("mytoken", res.data.token);
+              this.$store.commit('getUserName', this.form.username);
+              this.$router.push("/");
             } else {
               this.$message.error(res.meta.msg);
             }
